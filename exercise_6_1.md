@@ -5,7 +5,7 @@
 
 #### b) Zeigen Sie, dass dies nicht immer gilt, wenn der effektive Verzweigungsfaktor groß aber variabel ist
 **Annahme**
-- Verzweigungsfaktor 100
+- Sehr großer Verzweigungsfaktor
 - Ebene d-1 hat Verzweigungsfaktor 1
 
 **Ergebnis**
