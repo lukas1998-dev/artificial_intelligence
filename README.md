@@ -2,7 +2,7 @@
 Exercises for artificial intelligence
 
 #### Finished:
-6.1 - 6.3
+6.1 - 6.4
 
 #### Remaining:
-6.4 - 6.16
+6.5 - 6.16
