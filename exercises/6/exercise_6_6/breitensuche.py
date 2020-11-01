@@ -1,5 +1,4 @@
 
-
 def printPuzzle(puzzle):
 
     for i in puzzle:
