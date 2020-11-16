@@ -1,15 +1,23 @@
 
-list = [];
-
 class Node:
     def __init__(self, next=None, prev=None, data=None):
         self.next = next
         self.prev = prev
         self.data = data
 
+def switchTiles(direction, puzzle):
+    # switch direction of 0
+    # direction 0 == left; 1 == right
+    #           2 == up; 3 == down
+
+
+    return;
+
 def expand(puzzle):
     print("Expanding:");
     printPuzzle(puzzle);
+
+    newNodes = [];
 
     row = None
     col = None
@@ -19,8 +27,26 @@ def expand(puzzle):
             col = puzzle.data.index(list);
             row = list.index(0)
 
-    print(row)
-    print(col)
+
+    if(row == 0):
+        newNodes.append(switchTiles(1, puzzle));
+    if(row == 1):
+        newNodes.append(switchTiles(1, puzzle));
+        newNodes.append(switchTiles(0, puzzle));
+    if(row == 2):
+        newNodes.append(switchTiles(0, puzzle));
+
+
+    if(col == 0):
+        newNodes.append(switchTiles(3, puzzle));
+    if(col == 1):
+        newNodes.append(switchTiles(3, puzzle));
+        newNodes.append(switchTiles(2, puzzle));
+    if(col == 2):
+        newNodes.append(switchTiles(2, puzzle));
+
+    return newNodes;
+
 
 def printList(list):
     for e in list:
@@ -29,27 +55,25 @@ def printList(list):
 
 def printPuzzle(puzzle):
     for i in puzzle.data:
-            print(i)
+        print(i)
     print()
 
-def breadth_first(puzzle, goal):
-    if(puzzle.data == goal.data):
-        print("Goal reached")
-        return;
+def breadth_first(list, goal):
+
+    newNodes = [];
+    for p in list:
+        if(p.data == goal.data):
+            print("Goal reached");
+            printPuzzle(p);
+            return;
+
+        newNodes.append(expand(p));
+
+    if(len(newNodes) > 0 ):
+        breadth_first(newNodes, goal);
     else:
-        global list;
-        list.append(puzzle);
-
-        nextPuzzle = None;
-        #while(True):
-
-        for p in list:
-            if(p.next is None):
-                nextPuzzle = p;
-                break;
-
-        expand(nextPuzzle);
-        #break;
+        print("keine Lösung");
+        return;
 
 #---Main---
 #TODO: Manual Input
@@ -73,5 +97,8 @@ printPuzzle(puzzle)
 print("End puzzle:")
 printPuzzle(goal)
 
-breadth_first(puzzle, goal)
+list = []
+list.append(puzzle)
+
+breadth_first(list, goal)
 print("Finished")
