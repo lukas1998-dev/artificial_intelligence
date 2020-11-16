@@ -93,18 +93,18 @@ def breadth_first(list, goal):
     global iteration;
 
     printList(list)
+    newNodes = [];
+
     for p in list:
         if(p.data == goal.data):
             print("Goal reached");
             printPuzzle(p);
             return;
-
-    newNodes = [];
-    for p in list:
+            
         newNodes.extend(expand(p));
 
     if(len(newNodes) > 0 ):
-        iteration +=1;
+        iteration += 1;
         print("------------" +str(iteration) + "------------------")
         breadth_first(newNodes, goal);
     else:
