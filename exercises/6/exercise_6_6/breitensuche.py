@@ -1,9 +1,26 @@
 
+list = [];
+
 class Node:
     def __init__(self, next=None, prev=None, data=None):
         self.next = next
         self.prev = prev
         self.data = data
+
+def expand(puzzle):
+    print("Expanding:");
+    printPuzzle(puzzle);
+
+    row = None
+    col = None
+
+    for list in puzzle.data:
+        if(0 in list):
+            col = puzzle.data.index(list);
+            row = list.index(0)
+
+    print(row)
+    print(col)
 
 def printList(list):
     for e in list:
@@ -11,10 +28,8 @@ def printList(list):
 
 
 def printPuzzle(puzzle):
-
     for i in puzzle.data:
             print(i)
-
     print()
 
 def breadth_first(puzzle, goal):
@@ -22,11 +37,19 @@ def breadth_first(puzzle, goal):
         print("Goal reached")
         return;
     else:
-        list = [];
+        global list;
         list.append(puzzle);
 
+        nextPuzzle = None;
         #while(True):
 
+        for p in list:
+            if(p.next is None):
+                nextPuzzle = p;
+                break;
+
+        expand(nextPuzzle);
+        #break;
 
 #---Main---
 #TODO: Manual Input
