@@ -8,11 +8,19 @@ class Node:
         self.prev = prev
         self.data = data
 
-def switchTiles(direction, newData):
+def printSolution(puzzle):
+    print("Path:")
+    printPuzzle(puzzle);
+    while(puzzle.prev is not None):
+        puzzle = puzzle.prev
+        printPuzzle(puzzle);
+
+
+def switchTiles(direction, newData, parent):
     # switch direction of 0
     # direction 0 == left; 1 == right
     #           2 == up; 3 == down
-    newPuzzle = Node(data = deepcopy(newData));
+    newPuzzle = Node(prev=parent, data = deepcopy(newData));
 
     if(direction == 0):
         for row in newPuzzle.data:
@@ -60,21 +68,21 @@ def expand(puzzle):
             row = list.index(0)
 
     if(row == 0):
-        newNodes.append(switchTiles(1, puzzle.data));
+        newNodes.append(switchTiles(1, puzzle.data, puzzle));
     if(row == 1):
-        newNodes.append(switchTiles(1, puzzle.data));
-        newNodes.append(switchTiles(0, puzzle.data));
+        newNodes.append(switchTiles(1, puzzle.data, puzzle));
+        newNodes.append(switchTiles(0, puzzle.data, puzzle));
     if(row == 2):
-        newNodes.append(switchTiles(0, puzzle.data));
+        newNodes.append(switchTiles(0, puzzle.data, puzzle));
 
 
     if(col == 0):
-        newNodes.append(switchTiles(3, puzzle.data));
+        newNodes.append(switchTiles(3, puzzle.data, puzzle));
     if(col == 1):
-        newNodes.append(switchTiles(2, puzzle.data));
-        newNodes.append(switchTiles(3, puzzle.data));
+        newNodes.append(switchTiles(2, puzzle.data, puzzle));
+        newNodes.append(switchTiles(3, puzzle.data, puzzle));
     if(col == 2):
-        newNodes.append(switchTiles(2, puzzle.data));
+        newNodes.append(switchTiles(2, puzzle.data, puzzle));
 
     return newNodes;
 
@@ -99,13 +107,14 @@ def breadth_first(list, goal):
         if(p.data == goal.data):
             print("Goal reached");
             printPuzzle(p);
+            printSolution(p);
             return;
-            
+
         newNodes.extend(expand(p));
 
     if(len(newNodes) > 0 ):
         iteration += 1;
-        print("------------" +str(iteration) + "------------------")
+        print("------------" + str(iteration) + "------------------")
         breadth_first(newNodes, goal);
     else:
         print("keine Lösung");
