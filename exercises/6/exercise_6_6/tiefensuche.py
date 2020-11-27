@@ -1,7 +1,5 @@
 from copy import deepcopy
-
-iteration = 0;
-
+import sys
 class Node:
     def __init__(self, next=None, prev=None, data=None):
         self.next = next
@@ -96,34 +94,38 @@ def printPuzzle(puzzle):
         print(i)
     print()
 
-def breadth_first(list, goal):
+def depth_search(puzzle, goal, knownNodes):
 
-    global iteration;
-
-    printList(list)
     newNodes = [];
 
-    for p in list:
-        if(p.data == goal.data):
-            print("Goal reached");
-            printPuzzle(p);
-            printSolution(p);
-            return;
+    if(puzzle.data == goal.data):
+        print("Goal reached");
+        printSolution(puzzle);
+        return 0;
 
-        newNodes.extend(expand(p));
+    newNodes.extend(expand(puzzle));
+    knownNodes.append(puzzle);
 
-    if(len(newNodes) > 0 ):
-        iteration += 1;
-        print("------------" + str(iteration) + "------------------")
-        breadth_first(newNodes, goal);
-    else:
-        print("keine Lösung");
-        return;
+    for known in knownNodes:
+        for new in newNodes:
+            if(new.data == known.data):
+                newNodes.remove(new);
+
+    while(True):
+        if newNodes == []:
+            break;
+        else:
+            erg = depth_search(deepcopy(newNodes[0]), goal, knownNodes);
+            if(erg == 0):
+                return 0;
+            newNodes.pop(0);
+
+    return -1;
 
 #---Main---
 #TODO: Manual Input
-
-puzzle = Node(next=None, prev=None, data=[[0,2,3],[1,4,5],[7,8,6]])
+sys.setrecursionlimit(10**6)
+puzzle = Node(next=None, prev=None, data=[[1,2,3],[4,5,0],[7,8,6]])
 #print(" Input vals from 0-8 for start state ")
 #for i in range(0,9):
 #    x = int(input("enter vals :"))
@@ -142,9 +144,7 @@ printPuzzle(puzzle)
 print("End puzzle:")
 printPuzzle(goal)
 
-list = []
-list.append(puzzle)
-
+emptyList = []
 print("----------Starting-------------")
-breadth_first(list, goal)
+depth_search(puzzle, goal, emptyList)
 print("Finished")
